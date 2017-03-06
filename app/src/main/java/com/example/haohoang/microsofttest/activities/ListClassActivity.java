@@ -58,7 +58,7 @@ public class ListClassActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-         classListAdapter=new ClassListAdapter();
+         classListAdapter=new ClassListAdapter(this);
         rvClassList.setAdapter(classListAdapter);
         rvClassList.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);

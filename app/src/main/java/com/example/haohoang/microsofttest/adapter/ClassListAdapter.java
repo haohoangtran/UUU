@@ -1,5 +1,7 @@
 package com.example.haohoang.microsofttest.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.haohoang.microsofttest.R;
+import com.example.haohoang.microsofttest.activities.StudentListActivity;
 import com.example.haohoang.microsofttest.adapter.viewhodler.ClassListViewHodler;
 import com.example.haohoang.microsofttest.classlistdata.ClassStudent;
 import com.example.haohoang.microsofttest.evenbus.GotoStudentListActivity;
@@ -28,6 +31,7 @@ import retrofit2.Response;
 
 public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> {
     private final String TAG=ClassListAdapter.class.toString();
+    private Context context;
     private final String urlGetList="https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups?start=0";
     private List<ClassStudent> classStudentList=new Vector<>();
     @Override
@@ -39,7 +43,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
         return new ClassListViewHodler(itemView);
     }
 
-    public ClassListAdapter() {
+    public ClassListAdapter(Context context) {
+        this.context=context;
         getAllGroup();
     }
 
@@ -70,9 +75,10 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                EventBus.getDefault().post(classStudent);// bắn đến student activity
-                EventBus.getDefault().post(new GotoStudentListActivity());
+                Intent intent=new Intent(context, StudentListActivity.class);
+                context.startActivity(intent);
+                EventBus.getDefault().post(classStudent);
+                Log.e(TAG, "onClick: gửi" );
             }
         });
     }
