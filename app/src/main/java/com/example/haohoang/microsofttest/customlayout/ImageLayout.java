@@ -24,9 +24,9 @@ public class ImageLayout extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width=MeasureSpec.getSize(widthMeasureSpec);
-        double height=width*0.75;
-        heightMeasureSpec=MeasureSpec.makeMeasureSpec((int)height,MeasureSpec.EXACTLY);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        double height = width * 0.75;
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec((int) height, MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

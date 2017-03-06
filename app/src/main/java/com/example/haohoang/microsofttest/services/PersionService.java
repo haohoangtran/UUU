@@ -18,13 +18,15 @@ import retrofit2.http.Path;
  * Created by tranh on 3/5/2017.
  */
 
-public interface PersionService  {
+public interface PersionService {
     @POST("{personGroupId}/persons")
     Call<PersionId> createPersion(@Path("personGroupId") String personGroupId, Student student);
+
     @POST("{personGroupId}/persons/{personId}/persistedFaces")
     Call<PersionFaceId> addPersionFace(@Path("personGroupId") String personGroupId, @Path("personId") String personId, @Body UrlImage url);
+
     @GET("{personGroupId}/persons")
-    Call<List<Student>> getAllPersonInGroup(@Path("personGroupId")String personGroupId);
+    Call<List<Student>> getAllPersonInGroup(@Path("personGroupId") String personGroupId);
 
 
 }

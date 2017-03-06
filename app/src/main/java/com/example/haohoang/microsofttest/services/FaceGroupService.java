@@ -24,14 +24,19 @@ import retrofit2.http.Url;
 public interface FaceGroupService {
     @PUT("{personGroupId}")
     Call<String> addNewGroupFace(@Path("personGroupId") String personGroupId, @Body AddNewGroupBody addNewGroupBody);
+
     @DELETE("{personGroupId}")
     Call<String> deleteGroupFace(@Path("personGroupId") String personGroupId);
+
     @GET("{personGroupId}")
-    Call<GetPersionGroupResponJSON> getGroupFace(@Path("personGroupId")String personGroupId );
+    Call<GetPersionGroupResponJSON> getGroupFace(@Path("personGroupId") String personGroupId);
+
     @GET("{personGroupId}/training")
     Call<GetPersonGroupTrainingStatusJSON> getPersonGroupTrainingStatus(@Path("personGroupId") String personGroupId);
+
     @POST("{personGroupId}/train")
     Call<Void> trainAI(@Path("personGroupId") String personGroupId);
+
     @GET
     Call<List<ClassStudent>> getAllGroup(@Url String URL);
 

@@ -29,12 +29,16 @@ public class ClassStudent {
         return students;
     }
 
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
     @SerializedName("name")
 
     private String name;
     @SerializedName("userData")
     private String classRoom;
-    private List<Student> students;
+    private List<Student> students = new Vector<>();
 
     public void setStudents(List<Student> students) {
         this.students = students;
@@ -44,14 +48,13 @@ public class ClassStudent {
         this.persongroupid = persongroupid;
         this.name = name;
         this.classRoom = userdata;
-        students=new Vector<>();
 
     }
 
     public ClassStudent(String name, String classRoom) {
         this.name = name;
         this.classRoom = classRoom;
-        students=new Vector<>();
+        students = new Vector<>();
     }
 
     public void setPersongroupid(String persongroupid) {

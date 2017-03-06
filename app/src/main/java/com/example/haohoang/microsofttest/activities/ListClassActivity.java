@@ -1,5 +1,6 @@
 package com.example.haohoang.microsofttest.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,9 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.haohoang.microsofttest.DbContext;
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.adapter.ClassListAdapter;
+import com.example.haohoang.microsofttest.evenbus.GetDataFaildedEvent;
+import com.example.haohoang.microsofttest.evenbus.GetDataSuccusEvent;
 import com.example.haohoang.microsofttest.evenbus.GotoStudentListActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,16 +35,20 @@ import butterknife.ButterKnife;
 
 public class ListClassActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = ListClassActivity.class.toString();
     @BindView(R.id.rv_classlist)
     RecyclerView rvClassList;
     ClassListAdapter classListAdapter;
+    ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_class);
-
         ButterKnife.bind(this);
+
         EventBus.getDefault().register(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -55,10 +65,14 @@ public class ListClassActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        progress = ProgressDialog.show(this, "Loading",
+                "Please waiting...", true);
+        progress.show();
+        DbContext.instance.getAllGroup();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-         classListAdapter=new ClassListAdapter(this);
+        classListAdapter = new ClassListAdapter(this);
         rvClassList.setAdapter(classListAdapter);
         rvClassList.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -71,9 +85,26 @@ public class ListClassActivity extends AppCompatActivity
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
     @Subscribe
-    public void gotoStudentList(GotoStudentListActivity gotoStudentListActivity){
-        Intent intent=new Intent(this,StudentListActivity.class);
+    public void getDataSuccus(GetDataSuccusEvent event) {
+        progress.dismiss();
+        for (int i = 0; i < event.getClassStudents().size(); i++) {
+            Log.e(TAG, String.format("getDataSuccus: bind %s", event.getClassStudents().get(i).getStudents().size()) );
+        }
+        classListAdapter.notifyDataSetChanged();
+        Toast.makeText(this, "Load completed", Toast.LENGTH_SHORT).show();
+    }
+
+    public void getDataFailed(GetDataFaildedEvent event) {
+        progress.dismiss();
+
+        Toast.makeText(this, "Load failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe
+    public void gotoStudentList(GotoStudentListActivity gotoStudentListActivity) {
+        Intent intent = new Intent(this, StudentListActivity.class);
         startActivity(intent);
     }
 

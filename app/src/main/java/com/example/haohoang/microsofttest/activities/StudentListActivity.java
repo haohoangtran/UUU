@@ -33,6 +33,7 @@ public class StudentListActivity extends AppCompatActivity {
     RecyclerView rvStudentList;
     ProgressDialog progress;
     StudentListAdapter studentListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +44,12 @@ public class StudentListActivity extends AppCompatActivity {
                 "Please waiting...", true);
         progress.show();
 
-    }
-    @Subscribe
-    public void onClassClick( ClassStudent c){// nhận click đang lỗi
 
-        Log.e(TAG, "onClassClick: Vào bên nhận" );
+    }
+
+    @Subscribe
+    public void onClassClick(ClassStudent c) {// nhận click đang lỗi
+        Log.e(TAG, "onClassClick: Vào bên nhận");
     }
 
     @Override

@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.sutudentdata.Student;
+
 import java.io.InputStream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,15 +28,18 @@ public class StudentListHolder extends RecyclerView.ViewHolder {
     TextView tvIdStudent;
     @BindView(R.id.iv_student_img)
     ImageView ivStudent;
+
     public StudentListHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
     }
-    public void bind(Student student){
-        DownloadImageTask downloadImageTask=new DownloadImageTask(ivStudent);
+
+    public void bind(Student student) {
+        DownloadImageTask downloadImageTask = new DownloadImageTask(ivStudent);
         tvIdStudent.setText(student.getIdStudent());
         tvNameStudent.setText(student.getName());
     }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

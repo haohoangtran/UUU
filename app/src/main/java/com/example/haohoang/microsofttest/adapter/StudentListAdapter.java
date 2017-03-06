@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
+import java.util.Vector;
 
 import static com.example.haohoang.microsofttest.activities.StudentListActivity.students;
 
@@ -24,6 +25,8 @@ import static com.example.haohoang.microsofttest.activities.StudentListActivity.
  */
 
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListHolder> {
+    private List<Student> students = new Vector<>();
+
     public StudentListAdapter() {
     }
 
@@ -37,15 +40,14 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListHolder> 
     }
 
 
-
     @Override
     public void onBindViewHolder(StudentListHolder holder, int position) {
-        Student student=students.get(position);
+        Student student = students.get(position);
         holder.bind(student);
     }
 
     @Override
     public int getItemCount() {
-        return  students.size();
+        return students.size();
     }
 }
