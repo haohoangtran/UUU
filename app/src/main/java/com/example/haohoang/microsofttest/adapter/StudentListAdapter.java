@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.haohoang.microsofttest.R;
+import com.example.haohoang.microsofttest.activities.StudentListActivity;
 import com.example.haohoang.microsofttest.adapter.viewhodler.ClassListViewHodler;
 import com.example.haohoang.microsofttest.adapter.viewhodler.StudentListHolder;
 import com.example.haohoang.microsofttest.classlistdata.ClassStudent;
@@ -16,20 +17,20 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import static com.example.haohoang.microsofttest.activities.StudentListActivity.students;
+
 /**
  * Created by tranh on 3/6/2017.
  */
 
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListHolder> {
-    public StudentListAdapter(List<Student> students) {
-        this.students = students;
+    public StudentListAdapter() {
     }
 
-    private List<Student> students;
     @Override
     public StudentListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.class_item, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.student_item, parent, false);
 
         //2: create ViewHolder
         return new StudentListHolder(itemView);

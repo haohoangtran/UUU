@@ -15,6 +15,7 @@ import com.example.haohoang.microsofttest.classlistdata.ClassStudent;
 import com.example.haohoang.microsofttest.evenbus.GotoStudentListActivity;
 import com.example.haohoang.microsofttest.networks.NetContext;
 import com.example.haohoang.microsofttest.services.FaceGroupService;
+import com.example.haohoang.microsofttest.services.PersionService;
 import com.example.haohoang.microsofttest.sutudentdata.Student;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,6 +48,23 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
         this.context=context;
         getAllGroup();
     }
+    public void getAllStudentInGroup(final ClassStudent c){
+        PersionService persionService=NetContext.instance.create(PersionService.class);
+        persionService.getAllPersonInGroup(c.getPersongroupid()).enqueue(new Callback<List<Student>>() {
+            @Override
+            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
+                c.setStudents(response.body());
+                Log.e(TAG, "onResponse: haha" );
+                Log.e(TAG, String.format("onResponse: %s", c.toString()) );
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<Student>> call, Throwable t) {
+                Log.e(TAG, "onFailure: huhu" );
+            }
+        });
+    }
 
     private void getAllGroup() {
         FaceGroupService faceGroupService= NetContext.instance.create(FaceGroupService.class);
@@ -54,10 +72,11 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
             @Override
             public void onResponse(Call<List<ClassStudent>> call, Response<List<ClassStudent>> response) {
                 classStudentList =response.body();
-                for (ClassStudent classStudent : classStudentList) {
-                    Log.e(TAG, String.format("onResponse: %s", classStudent.toString()) );
+                for (int i = 0; i < classStudentList.size(); i++) {
+                    getAllStudentInGroup(classStudentList.get(i));
+                    Log.e(TAG, "onResponse: get rồi" );
                 }
-                notifyDataSetChanged();
+                Log.e(TAG, "onResponse: Đã tahnhf" );
             }
 
             @Override
@@ -66,6 +85,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
             }
         });
     }
+
 
     @Override
     public void onBindViewHolder(ClassListViewHodler holder, int position) {
@@ -78,6 +98,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
                 Intent intent=new Intent(context, StudentListActivity.class);
                 context.startActivity(intent);
                 EventBus.getDefault().post(classStudent);
+                Log.e(TAG, String.format("onClick: %s", classStudent.toString()) );
                 Log.e(TAG, "onClick: gửi" );
             }
         });

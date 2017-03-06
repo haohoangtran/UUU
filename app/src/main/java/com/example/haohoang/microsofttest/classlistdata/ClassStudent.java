@@ -12,6 +12,16 @@ import java.util.Vector;
 
 public class ClassStudent {
 
+    @Override
+    public String toString() {
+        return "ClassStudent{" +
+                "persongroupid='" + persongroupid + '\'' +
+                ", name='" + name + '\'' +
+                ", classRoom='" + classRoom + '\'' +
+                ", students=" + students +
+                '}';
+    }
+
     @SerializedName("personGroupId")
     private String persongroupid;
 

@@ -28,6 +28,7 @@ import retrofit2.Response;
 
 public class StudentListActivity extends AppCompatActivity {
     private static final String TAG = StudentListActivity.class.toString();
+    public static List<Student> students;
     @BindView(R.id.rv_student_list)
     RecyclerView rvStudentList;
     ProgressDialog progress;
@@ -41,28 +42,12 @@ public class StudentListActivity extends AppCompatActivity {
         progress = ProgressDialog.show(this, "Loading",
                 "Please waiting...", true);
         progress.show();
+
     }
     @Subscribe
     public void onClassClick( ClassStudent c){// nhận click đang lỗi
-        Log.e(TAG, "onClassClick: Vào" );
-        PersionService persionService= NetContext.instance.create(PersionService.class);
-        persionService.getAllPersonInGroup(c.getPersongroupid()).enqueue(new Callback<List<Student>>() {
-            @Override
-            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-                List<Student> students=response.body();
-                studentListAdapter=new StudentListAdapter(students);
-                rvStudentList.setAdapter(studentListAdapter);
-                rvStudentList.setLayoutManager(new GridLayoutManager(StudentListActivity.this,2));
-                progress.dismiss();
-            }
 
-            @Override
-            public void onFailure(Call<List<Student>> call, Throwable t) {
-                Toast.makeText(StudentListActivity.this, "Can't load, check internet", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, String.format("onFailure: %s", t.toString()) );
-                progress.dismiss();
-            }
-        });
+        Log.e(TAG, "onClassClick: Vào bên nhận" );
     }
 
     @Override

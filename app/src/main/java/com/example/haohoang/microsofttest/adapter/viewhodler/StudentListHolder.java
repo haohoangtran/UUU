@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 
 public class StudentListHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.tv_name)
+    @BindView(R.id.tv_nameStudent)
     TextView tvNameStudent;
     @BindView(R.id.tv_idStudent)
     TextView tvIdStudent;
