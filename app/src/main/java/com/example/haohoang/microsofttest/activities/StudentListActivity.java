@@ -17,6 +17,7 @@ import com.example.haohoang.microsofttest.sutudentdata.Student;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -38,34 +39,29 @@ public class StudentListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
-        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 //        progress = ProgressDialog.show(this, "Loading",
 //                "Please waiting...", true);
 //        progress.show();
         ClassStudent classStudent= (ClassStudent) getIntent().getSerializableExtra("lop");
-        studentListAdapter=new StudentListAdapter(classStudent);
+        studentListAdapter=new StudentListAdapter();
         rvStudentList.setAdapter(studentListAdapter);
         rvStudentList.setLayoutManager(new GridLayoutManager(this,2));
-
-
     }
 
-    @Subscribe
+
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onClassClick(ClassStudent c) {// nhận click đang lỗi
         Log.e(TAG, "onClassClick: Vào bên nhận");
         //ở đây đang không nhận event
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
         EventBus.getDefault().unregister(this);
     }
 }

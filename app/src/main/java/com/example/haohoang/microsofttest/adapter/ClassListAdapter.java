@@ -66,9 +66,10 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(classStudent);
+                EventBus.getDefault().postSticky(classStudent);
+                Log.e(TAG, String.format("onClick: %s", classStudent.getStudents().size()) );
+                StudentListAdapter.classStudent=classStudent;
                 Intent intent = new Intent(context, StudentListActivity.class);
-                intent.putExtra("lop",classStudent);
                 context.startActivity(intent);
             }
         });

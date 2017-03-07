@@ -27,11 +27,11 @@ import static com.example.haohoang.microsofttest.activities.StudentListActivity.
 
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListHolder> {
     private final String TAG = StudentListAdapter.class.toString();
-    private ClassStudent classStudent;
+    public static ClassStudent classStudent;
 
 
-    public StudentListAdapter(ClassStudent c) {
-        this.classStudent = c;
+    public StudentListAdapter() {
+
     }
 
 
@@ -55,8 +55,6 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListHolder> 
 
     @Override
     public int getItemCount() {
-
-        Log.e(TAG, String.format("onCreateViewHolder: %s", classStudent.getStudents().size()));
         return classStudent.getStudents().size();
     }
 }
