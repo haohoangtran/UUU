@@ -40,9 +40,13 @@ public class StudentListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_list);
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
-        progress = ProgressDialog.show(this, "Loading",
-                "Please waiting...", true);
-        progress.show();
+//        progress = ProgressDialog.show(this, "Loading",
+//                "Please waiting...", true);
+//        progress.show();
+        ClassStudent classStudent= (ClassStudent) getIntent().getSerializableExtra("lop");
+        studentListAdapter=new StudentListAdapter(classStudent);
+        rvStudentList.setAdapter(studentListAdapter);
+        rvStudentList.setLayoutManager(new GridLayoutManager(this,2));
 
 
     }
@@ -50,11 +54,18 @@ public class StudentListActivity extends AppCompatActivity {
     @Subscribe
     public void onClassClick(ClassStudent c) {// nhận click đang lỗi
         Log.e(TAG, "onClassClick: Vào bên nhận");
+        //ở đây đang không nhận event
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         EventBus.getDefault().unregister(this);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.haohoang.microsofttest.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +26,20 @@ import static com.example.haohoang.microsofttest.activities.StudentListActivity.
  */
 
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListHolder> {
-    private List<Student> students = new Vector<>();
+    private final String TAG = StudentListAdapter.class.toString();
+    private ClassStudent classStudent;
 
-    public StudentListAdapter() {
+
+    public StudentListAdapter(ClassStudent c) {
+        this.classStudent = c;
     }
+
 
     @Override
     public StudentListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = layoutInflater.inflate(R.layout.student_item, parent, false);
-
+        Log.e(TAG, String.format("onCreateViewHolder: %s", classStudent.getStudents().size()));
         //2: create ViewHolder
         return new StudentListHolder(itemView);
     }
@@ -43,11 +48,15 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListHolder> 
     @Override
     public void onBindViewHolder(StudentListHolder holder, int position) {
         Student student = students.get(position);
+
+        Log.e(TAG, String.format("onCreateViewHolder: %s", classStudent.getStudents().size()));
         holder.bind(student);
     }
 
     @Override
     public int getItemCount() {
-        return students.size();
+
+        Log.e(TAG, String.format("onCreateViewHolder: %s", classStudent.getStudents().size()));
+        return classStudent.getStudents().size();
     }
 }

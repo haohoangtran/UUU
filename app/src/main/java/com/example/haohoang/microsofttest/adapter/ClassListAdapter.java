@@ -68,6 +68,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
             public void onClick(View v) {
                 EventBus.getDefault().post(classStudent);
                 Intent intent = new Intent(context, StudentListActivity.class);
+                intent.putExtra("lop",classStudent);
                 context.startActivity(intent);
             }
         });
