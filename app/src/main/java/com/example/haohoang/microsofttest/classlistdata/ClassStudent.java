@@ -38,7 +38,7 @@ public class ClassStudent {
     private String name;
     @SerializedName("userData")
     private String classRoom;
-    private List<Student> students = new Vector<>();
+    private List<Student> students;
 
     public void setStudents(List<Student> students) {
         this.students = students;
