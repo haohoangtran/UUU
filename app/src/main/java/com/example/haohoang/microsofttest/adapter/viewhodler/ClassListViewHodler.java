@@ -29,10 +29,10 @@ public class ClassListViewHodler extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(ClassStudent classStudent) {
+    public void bind(final ClassStudent classStudent) {
         tvClassName.setText(classStudent.getName());
         tvClassRoom.setText(classStudent.getClassRoom());
-        Log.e(TAG, String.format("bind: %s", classStudent.getStudents().size()));
-        tvClassSize.setText(String.format("%s",classStudent.getStudents().size()));
+        Log.e(TAG, String.format(" nhận bind: %s", classStudent.getStudents().size()));
+        tvClassSize.setText(String.format("%s sv",classStudent.getStudents().size()));
     }
 }

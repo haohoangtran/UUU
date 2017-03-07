@@ -48,12 +48,15 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
 
     public ClassListAdapter(Context context) {
         this.context = context;
+        for (int i = 0; i < DbContext.instance.getClassStudents().size(); i++) {
+            Log.e(TAG, String.format("ClassListAdapter: %s", DbContext.instance.getClassStudents().get(i).getStudents().size()) );
+        }
     }
 
 
     @Override
     public void onBindViewHolder(ClassListViewHodler holder, int position) {
-        final ClassStudent classStudent = DbContext.instance.getClassStudents().get(position);
+        ClassStudent classStudent = DbContext.instance.getClassStudents().get(position);
         classStudent.setStudents(new Vector<Student>());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +65,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
                 context.startActivity(intent);
             }
         });
+        Log.e(TAG, String.format("onBindViewHolder: GỬi bind %s", classStudent.getStudents().size()) );
         holder.bind(classStudent);
     }
 

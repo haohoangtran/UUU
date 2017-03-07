@@ -72,12 +72,6 @@ public class ListClassActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        classListAdapter = new ClassListAdapter(this);
-        rvClassList.setAdapter(classListAdapter);
-        rvClassList.setLayoutManager(new LinearLayoutManager(this));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        rvClassList.addItemDecoration(dividerItemDecoration);
-
     }
 
     @Override
@@ -92,7 +86,12 @@ public class ListClassActivity extends AppCompatActivity
         for (int i = 0; i < event.getClassStudents().size(); i++) {
             Log.e(TAG, String.format("getDataSuccus: bind %s", event.getClassStudents().get(i).getStudents().size()) );
         }
-        classListAdapter.notifyDataSetChanged();
+        classListAdapter = new ClassListAdapter(this);
+        rvClassList.setAdapter(classListAdapter);
+        rvClassList.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        rvClassList.addItemDecoration(dividerItemDecoration);
+
         Toast.makeText(this, "Load completed", Toast.LENGTH_SHORT).show();
     }
 

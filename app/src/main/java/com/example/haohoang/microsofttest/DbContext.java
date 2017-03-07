@@ -51,8 +51,12 @@ public class DbContext {
             public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
                 List<Student> s = response.body();
                 c.setStudents(s);
-                if (count == classStudents.size() - 1)
+                if (count == classStudents.size() - 1) {
+                    for (int i = 0; i < classStudents.size(); i++) {
+                        Log.e(TAG, String.format("onResponse: cccc %s", classStudents.get(i).getStudents().size()) );
+                    }
                     EventBus.getDefault().post(new GetDataSuccusEvent(classStudents));
+                }
                 else
                     count++;
                 Log.e(TAG, "onResponse: Gửi");
@@ -75,7 +79,7 @@ public class DbContext {
                 for (int i = 0; i < classStudents.size(); i++) {
                     getAllStudentInGroup(classStudents.get(i));
                 }
-                Log.e(TAG, "onResponse: ccccc");
+                Log.e(TAG, "onResponse: load hết group");
             }
 
             @Override
