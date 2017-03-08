@@ -23,7 +23,8 @@
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_list_class"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.StudentListActivity"></activity>
+        <activity android:name=".activities.StudentListActivity" />
+        <activity android:name=".activities.VerifyActivity"></activity>
     </application>
 
 </manifest>

@@ -20,7 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.haohoang.microsofttest.DbContext;
+import com.example.haohoang.microsofttest.databases.DbClassContext;
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.adapter.ClassListAdapter;
 import com.example.haohoang.microsofttest.evenbus.GetDataFaildedEvent;
@@ -68,7 +68,7 @@ public class ListClassActivity extends AppCompatActivity
         progress = ProgressDialog.show(this, "Loading",
                 "Please waiting...", true);
         progress.show();
-        DbContext.instance.getAllGroup();
+        DbClassContext.instance.getAllGroup();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -83,9 +83,6 @@ public class ListClassActivity extends AppCompatActivity
     @Subscribe
     public void getDataSuccus(GetDataSuccusEvent event) {
         progress.dismiss();
-        for (int i = 0; i < event.getClassStudents().size(); i++) {
-            Log.e(TAG, String.format("getDataSuccus: bind %s", event.getClassStudents().get(i).getStudents().size()) );
-        }
         classListAdapter = new ClassListAdapter(this);
         rvClassList.setAdapter(classListAdapter);
         rvClassList.setLayoutManager(new LinearLayoutManager(this));

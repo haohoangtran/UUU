@@ -5,6 +5,7 @@ import com.example.haohoang.microsofttest.databases.model.request.UrlImage;
 import com.example.haohoang.microsofttest.databases.model.respon.PersionFaceId;
 import com.example.haohoang.microsofttest.databases.model.respon.PersionId;
 import com.example.haohoang.microsofttest.sutudentdata.Student;
+import com.example.haohoang.microsofttest.sutudentdata.StudentRespon;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface PersionService {
     Call<PersionFaceId> addPersionFace(@Path("personGroupId") String personGroupId, @Path("personId") String personId, @Body UrlImage url);
 
     @GET("{personGroupId}/persons")
-    Call<List<Student>> getAllPersonInGroup(@Path("personGroupId") String personGroupId);
+    Call<List<StudentRespon>> getAllPersonInGroup(@Path("personGroupId") String personGroupId);
 
 
 }

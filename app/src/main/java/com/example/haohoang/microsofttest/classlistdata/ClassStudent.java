@@ -11,7 +11,7 @@ import java.util.Vector;
  * Created by tranh on 3/6/2017.
  */
 
-public class ClassStudent implements Serializable{
+public class ClassStudent implements Serializable {
 
     @Override
     public String toString() {
