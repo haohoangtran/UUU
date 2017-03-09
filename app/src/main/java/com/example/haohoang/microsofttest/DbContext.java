@@ -3,6 +3,7 @@ package com.example.haohoang.microsofttest;
 import android.util.Log;
 
 import com.example.haohoang.microsofttest.classlistdata.ClassStudent;
+import com.example.haohoang.microsofttest.databases.model.bodies.AddNewGroupBody;
 import com.example.haohoang.microsofttest.evenbus.GetDataFaildedEvent;
 import com.example.haohoang.microsofttest.evenbus.GetDataSuccusEvent;
 import com.example.haohoang.microsofttest.networks.NetContext;
@@ -31,7 +32,7 @@ public class DbContext {
 
 
     private DbContext() {
-        this.classStudents = new Vector<>();
+
     }
 
     public List<ClassStudent> getClassStudents() {
@@ -53,9 +54,9 @@ public class DbContext {
                 c.setStudents(s);
                 if (count == classStudents.size() - 1) {
                     for (int i = 0; i < classStudents.size(); i++) {
-                        Log.e(TAG, String.format("onResponse: cccc %s", classStudents.get(i).getStudents().size()) );
+                        //Log.e(TAG, String.format("onResponse: cccc %s", classStudents.get(i).getStudents().size()) );
                     }
-                    EventBus.getDefault().post(new GetDataSuccusEvent(classStudents));
+                    EventBus.getDefault().postSticky(new GetDataSuccusEvent(classStudents));
                 }
                 else
                     count++;
@@ -76,9 +77,11 @@ public class DbContext {
             @Override
             public void onResponse(Call<List<ClassStudent>> call, Response<List<ClassStudent>> response) {
                 classStudents = response.body();
+                if(classStudents!=null)
                 for (int i = 0; i < classStudents.size(); i++) {
                     getAllStudentInGroup(classStudents.get(i));
                 }
+                //anh sua cai nay r ma do fuck
                 Log.e(TAG, "onResponse: load hết group");
             }
 

@@ -1,14 +1,9 @@
 package com.example.haohoang.microsofttest.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,29 +13,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.haohoang.microsofttest.DbContext;
 import com.example.haohoang.microsofttest.R;
-import com.example.haohoang.microsofttest.adapter.ClassListAdapter;
-import com.example.haohoang.microsofttest.evenbus.GetDataFaildedEvent;
-import com.example.haohoang.microsofttest.evenbus.GetDataSuccusEvent;
 import com.example.haohoang.microsofttest.evenbus.GotoStudentListActivity;
+import com.example.haohoang.microsofttest.fragment.ListClassFragment;
+import com.example.haohoang.microsofttest.fragment.SceneFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ListClassActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = ListClassActivity.class.toString();
-    @BindView(R.id.rv_classlist)
-    RecyclerView rvClassList;
-    ClassListAdapter classListAdapter;
-    ProgressDialog progress;
-
+        implements NavigationView.OnNavigationItemSelectedListener{
+    ActionBarDrawerToggle toggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,27 +38,39 @@ public class ListClassActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        progress = ProgressDialog.show(this, "Loading",
-                "Please waiting...", true);
-        progress.show();
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if(getSupportFragmentManager().getBackStackEntryCount() > 0){
+                    toggle.setDrawerIndicatorEnabled(false);
+                    toggle.setHomeAsUpIndicator(R.drawable.ic_keyboard_backspace_white_24px);
+                    toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onBackPressed();
+                        }
+                    });
+                }
+                else{
+                    toggle.setDrawerIndicatorEnabled(true);
+                    toggle.setToolbarNavigationClickListener(null);
+                }
+            }
+        });
+        toggle.syncState();
         DbContext.instance.getAllGroup();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        SceneFragment sceneFragment = new SceneFragment(this.getSupportFragmentManager(),R.id.fl_main);
+        sceneFragment.replaceFragment(new ListClassFragment(),false);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -80,26 +79,6 @@ public class ListClassActivity extends AppCompatActivity
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
-    public void getDataSuccus(GetDataSuccusEvent event) {
-        progress.dismiss();
-        for (int i = 0; i < event.getClassStudents().size(); i++) {
-            Log.e(TAG, String.format("getDataSuccus: bind %s", event.getClassStudents().get(i).getStudents().size()) );
-        }
-        classListAdapter = new ClassListAdapter(this);
-        rvClassList.setAdapter(classListAdapter);
-        rvClassList.setLayoutManager(new LinearLayoutManager(this));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        rvClassList.addItemDecoration(dividerItemDecoration);
-
-        Toast.makeText(this, "Load completed", Toast.LENGTH_SHORT).show();
-    }
-
-    public void getDataFailed(GetDataFaildedEvent event) {
-        progress.dismiss();
-
-        Toast.makeText(this, "Load failed", Toast.LENGTH_SHORT).show();
-    }
 
     @Subscribe
     public void gotoStudentList(GotoStudentListActivity gotoStudentListActivity) {
@@ -117,12 +96,12 @@ public class ListClassActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.list_class, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.list_class, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -130,11 +109,6 @@ public class ListClassActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -163,4 +137,20 @@ public class ListClassActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void replaceFragment(Fragment fragment, boolean addToBackStack) {
+        if (addToBackStack) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fl_main, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fl_main, fragment)
+                    .commit();
+        }
+    }
 }
+

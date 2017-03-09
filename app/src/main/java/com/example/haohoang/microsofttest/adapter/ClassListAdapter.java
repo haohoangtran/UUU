@@ -48,9 +48,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
 
     public ClassListAdapter(Context context) {
         this.context = context;
-        for (int i = 0; i < DbContext.instance.getClassStudents().size(); i++) {
-            Log.e(TAG, String.format("ClassListAdapter: %s", DbContext.instance.getClassStudents().get(i).getStudents().size()) );
-        }
     }
 
 

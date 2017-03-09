@@ -42,4 +42,7 @@ public class AddNewGroupBody {
         this.name = name;
         this.userdata = userdata;
     }
+
+    public AddNewGroupBody() {
+    }
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.haohoang.microsofttest.DbContext;
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.adapter.StudentListAdapter;
 import com.example.haohoang.microsofttest.classlistdata.ClassStudent;
@@ -43,7 +44,6 @@ public class StudentListActivity extends AppCompatActivity {
         progress = ProgressDialog.show(this, "Loading",
                 "Please waiting...", true);
         progress.show();
-
 
     }
 
