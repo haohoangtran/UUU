@@ -1,9 +1,8 @@
-package com.example.haohoang.microsofttest;
+package com.example.haohoang.microsofttest.databases;
 
 import android.util.Log;
 
 import com.example.haohoang.microsofttest.classlistdata.ClassStudent;
-import com.example.haohoang.microsofttest.databases.model.bodies.AddNewGroupBody;
 import com.example.haohoang.microsofttest.evenbus.GetDataFaildedEvent;
 import com.example.haohoang.microsofttest.evenbus.GetDataSuccusEvent;
 import com.example.haohoang.microsofttest.networks.NetContext;
@@ -24,15 +23,15 @@ import retrofit2.Response;
  * Created by tranh on 3/7/2017.
  */
 
-public class DbContext {
-    private static final String TAG = DbContext.class.toString();
+public class DbClassContext {
+    private static final String TAG = DbClassContext.class.toString();
     private List<ClassStudent> classStudents;
     private final String urlGetList = "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups?start=0";
-    public static final DbContext instance = new DbContext();
+    public static final DbClassContext instance = new DbClassContext();
 
 
-    private DbContext() {
-
+    private DbClassContext() {
+        this.classStudents = new Vector<>();
     }
 
     public List<ClassStudent> getClassStudents() {
@@ -45,31 +44,6 @@ public class DbContext {
 
     int count = 0;
 
-    private void getAllStudentInGroup(final ClassStudent c) {
-        PersionService persionService = NetContext.instance.create(PersionService.class);
-        persionService.getAllPersonInGroup(c.getPersongroupid()).enqueue(new Callback<List<Student>>() {
-            @Override
-            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-                List<Student> s = response.body();
-                c.setStudents(s);
-                if (count == classStudents.size() - 1) {
-                    for (int i = 0; i < classStudents.size(); i++) {
-                        //Log.e(TAG, String.format("onResponse: cccc %s", classStudents.get(i).getStudents().size()) );
-                    }
-                    EventBus.getDefault().postSticky(new GetDataSuccusEvent(classStudents));
-                }
-                else
-                    count++;
-                Log.e(TAG, "onResponse: Gửi");
-            }
-
-            @Override
-            public void onFailure(Call<List<Student>> call, Throwable t) {
-                EventBus.getDefault().post(new GetDataFaildedEvent());
-                Log.e(TAG, "onFailure: GỬi ");
-            }
-        });
-    }
 
     public void getAllGroup() {
         FaceGroupService faceGroupService = NetContext.instance.create(FaceGroupService.class);
@@ -77,12 +51,9 @@ public class DbContext {
             @Override
             public void onResponse(Call<List<ClassStudent>> call, Response<List<ClassStudent>> response) {
                 classStudents = response.body();
-                if(classStudents!=null)
-                for (int i = 0; i < classStudents.size(); i++) {
-                    getAllStudentInGroup(classStudents.get(i));
-                }
-                //anh sua cai nay r ma do fuck
+
                 Log.e(TAG, "onResponse: load hết group");
+                EventBus.getDefault().post(new GetDataSuccusEvent(classStudents));
             }
 
             @Override

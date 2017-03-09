@@ -14,10 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.haohoang.microsofttest.DbContext;
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.activities.ListClassActivity;
 import com.example.haohoang.microsofttest.adapter.ClassListAdapter;
+import com.example.haohoang.microsofttest.databases.DbClassContext;
 import com.example.haohoang.microsofttest.evenbus.AddNewClassEvent;
 import com.example.haohoang.microsofttest.evenbus.GetDataFaildedEvent;
 import com.example.haohoang.microsofttest.evenbus.GetDataSuccusEvent;
@@ -36,7 +36,7 @@ import butterknife.OnClick;
 
 public class ListClassFragment extends Fragment {
     private static final String TAG = ListClassActivity.class.toString();
-    @BindView(R.id.rv_classlist)
+    @BindView(R.id.rv_class_list)
     RecyclerView rvClassList;
     ClassListAdapter classListAdapter ;
     ProgressDialog progress;
@@ -49,7 +49,7 @@ public class ListClassFragment extends Fragment {
 
         progress = ProgressDialog.show(this.getContext(), "Loading",
                 "Please waiting...", true);
-        if (DbContext.instance.getClassStudents()!=null){
+        if (DbClassContext.instance.getClassStudents()!=null){
             progress.dismiss();
             classListAdapter = new ClassListAdapter(this.getContext());
             rvClassList.setAdapter(classListAdapter);

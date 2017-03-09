@@ -9,7 +9,7 @@
     tools:context="com.example.haohoang.microsofttest.activities.ListClassActivity"
     tools:showIn="@layout/app_bar_list_class">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_classlist"
+        android:id="@+id/rv_class_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteY="0dp"

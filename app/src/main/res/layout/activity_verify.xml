@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.haohoang.microsofttest.activities.VerifyActivity">
+
+
+    <View
+        android:id="@+id/v_empty"
+        android:layout_width="0dp"
+        android:layout_centerInParent="true"
+        android:layout_height="0dp"/>
+    <Button
+        android:id="@+id/bt_from_capture"
+        android:layout_above="@id/v_empty"
+        android:text="Từ máy ảnh"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_from_gallery"
+        android:layout_width="wrap_content"
+        android:text="Từ thư viện"
+        android:layout_below="@id/v_empty"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

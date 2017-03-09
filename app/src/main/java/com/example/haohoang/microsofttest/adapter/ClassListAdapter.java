@@ -8,25 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.haohoang.microsofttest.DbContext;
+import com.example.haohoang.microsofttest.databases.DbClassContext;
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.activities.StudentListActivity;
 import com.example.haohoang.microsofttest.adapter.viewhodler.ClassListViewHodler;
 import com.example.haohoang.microsofttest.classlistdata.ClassStudent;
-import com.example.haohoang.microsofttest.evenbus.GotoStudentListActivity;
-import com.example.haohoang.microsofttest.networks.NetContext;
-import com.example.haohoang.microsofttest.services.FaceGroupService;
-import com.example.haohoang.microsofttest.services.PersionService;
+import com.example.haohoang.microsofttest.databases.DbStudentContext;
 import com.example.haohoang.microsofttest.sutudentdata.Student;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
 import java.util.Vector;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by tranh on 3/6/2017.
@@ -48,27 +40,32 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListViewHodler> 
 
     public ClassListAdapter(Context context) {
         this.context = context;
+
     }
 
 
     @Override
     public void onBindViewHolder(ClassListViewHodler holder, int position) {
-        ClassStudent classStudent = DbContext.instance.getClassStudents().get(position);
+        final ClassStudent classStudent = DbClassContext.instance.getClassStudents().get(position);
         classStudent.setStudents(new Vector<Student>());
+        Log.e(TAG, String.format("onBindViewHolder: GỬi bind %s", classStudent.getStudents().size()));
+        holder.bind(classStudent);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().postSticky(classStudent);
+                Log.e(TAG, String.format("onClick: %s", classStudent.getStudents().size()));
+                DbStudentContext.instance.setIdGroup(classStudent.getPersongroupid());
+                DbStudentContext.instance.getAllStudentInGroup();
                 Intent intent = new Intent(context, StudentListActivity.class);
                 context.startActivity(intent);
             }
         });
-        Log.e(TAG, String.format("onBindViewHolder: GỬi bind %s", classStudent.getStudents().size()) );
-        holder.bind(classStudent);
     }
 
     @Override
     public int getItemCount() {
-        return DbContext.instance.getClassStudents().size();
+        return DbClassContext.instance.getClassStudents().size();
     }
 
 

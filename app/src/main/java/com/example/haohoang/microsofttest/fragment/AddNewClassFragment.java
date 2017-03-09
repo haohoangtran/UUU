@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.haohoang.microsofttest.DbContext;
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.activities.ListClassActivity;
 import com.example.haohoang.microsofttest.databases.model.bodies.AddNewGroupBody;

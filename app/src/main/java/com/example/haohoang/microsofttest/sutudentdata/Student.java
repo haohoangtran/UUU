@@ -1,20 +1,25 @@
 package com.example.haohoang.microsofttest.sutudentdata;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by tranh on 3/5/2017.
  */
 
 public class Student {
-
-    @SerializedName("personId")
     private String personid;
-    @SerializedName("name")
     private String name;
-    @SerializedName("userData")
     private String userData;
     private String idStudent;
+
+    public String getUrl() {
+        return url;
+    }
+
     private String url;
 
     @Override
@@ -33,8 +38,20 @@ public class Student {
         this.name = name;
         this.userData = userData;
         String[] strings = userData.split(" ");
-        strings[0] = this.idStudent;
-        strings[1] = this.url;
+        Log.e(TAG, String.format("Student: %s", userData) );
+        this.idStudent=strings[0];
+        this.url=strings[1];
+
+        Log.e(TAG, String.format("Student: %s %s",idStudent,url ) );
+    }
+    public Student(StudentRespon studentRespon){
+        this.name = studentRespon.getName();
+        this.userData = studentRespon.getUserdata();
+        this.personid=studentRespon.getPersonid();
+        String[] strings = userData.split(" ");
+        Log.e(TAG, String.format("Student: %s", userData) );
+            this.idStudent = strings[0];
+            this.url=strings[1];
     }
 
     // Hàm này do mình khởi tạo mới SInh viên

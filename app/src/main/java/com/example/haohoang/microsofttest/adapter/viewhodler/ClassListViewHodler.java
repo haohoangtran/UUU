@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  */
 
 public class ClassListViewHodler extends RecyclerView.ViewHolder {
-    private String TAG=ClassListViewHodler.class.toString();
+    private String TAG = ClassListViewHodler.class.toString();
     @BindView(R.id.tv_classname)
     TextView tvClassName;
     @BindView(R.id.tv_classsize)
@@ -33,6 +33,6 @@ public class ClassListViewHodler extends RecyclerView.ViewHolder {
         tvClassName.setText(classStudent.getName());
         tvClassRoom.setText(classStudent.getClassRoom());
         Log.e(TAG, String.format(" nhận bind: %s", classStudent.getStudents().size()));
-        tvClassSize.setText(String.format("%s sv",classStudent.getStudents().size()));
+        tvClassSize.setText(String.format("%s sv", classStudent.getStudents().size()));
     }
 }

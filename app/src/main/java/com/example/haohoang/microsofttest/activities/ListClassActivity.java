@@ -1,9 +1,15 @@
 package com.example.haohoang.microsofttest.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +19,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.example.haohoang.microsofttest.DbContext;
+import com.example.haohoang.microsofttest.databases.DbClassContext;
 import com.example.haohoang.microsofttest.R;
+import com.example.haohoang.microsofttest.adapter.ClassListAdapter;
+import com.example.haohoang.microsofttest.evenbus.GetDataFaildedEvent;
+import com.example.haohoang.microsofttest.evenbus.GetDataSuccusEvent;
 import com.example.haohoang.microsofttest.evenbus.GotoStudentListActivity;
 import com.example.haohoang.microsofttest.fragment.ListClassFragment;
 import com.example.haohoang.microsofttest.fragment.SceneFragment;
@@ -23,18 +33,19 @@ import com.example.haohoang.microsofttest.fragment.SceneFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ListClassActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
     ActionBarDrawerToggle toggle;
+
+    private static final String TAG = ListClassActivity.class.toString();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_class);
-        ButterKnife.bind(this);
-
-        EventBus.getDefault().register(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,13 +74,15 @@ public class ListClassActivity extends AppCompatActivity
                 }
             }
         });
-        toggle.syncState();
-        DbContext.instance.getAllGroup();
+
+
+        DbClassContext.instance.getAllGroup();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         SceneFragment sceneFragment = new SceneFragment(this.getSupportFragmentManager(),R.id.fl_main);
         sceneFragment.replaceFragment(new ListClassFragment(),false);
+
         ButterKnife.bind(this);
     }
 
@@ -78,7 +91,6 @@ public class ListClassActivity extends AppCompatActivity
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
 
     @Subscribe
     public void gotoStudentList(GotoStudentListActivity gotoStudentListActivity) {
@@ -110,6 +122,11 @@ public class ListClassActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -137,20 +154,4 @@ public class ListClassActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void replaceFragment(Fragment fragment, boolean addToBackStack) {
-        if (addToBackStack) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fl_main, fragment)
-                    .addToBackStack(null)
-                    .commit();
-        } else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fl_main, fragment)
-                    .commit();
-        }
-    }
 }
-

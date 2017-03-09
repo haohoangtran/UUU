@@ -3,6 +3,7 @@ package com.example.haohoang.microsofttest.classlistdata;
 import com.example.haohoang.microsofttest.sutudentdata.Student;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
@@ -10,7 +11,7 @@ import java.util.Vector;
  * Created by tranh on 3/6/2017.
  */
 
-public class ClassStudent {
+public class ClassStudent implements Serializable {
 
     @Override
     public String toString() {
@@ -38,7 +39,7 @@ public class ClassStudent {
     private String name;
     @SerializedName("userData")
     private String classRoom;
-    private List<Student> students = new Vector<>();
+    private List<Student> students;
 
     public void setStudents(List<Student> students) {
         this.students = students;

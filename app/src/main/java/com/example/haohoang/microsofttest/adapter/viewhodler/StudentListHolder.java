@@ -2,8 +2,10 @@ package com.example.haohoang.microsofttest.adapter.viewhodler;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,11 +13,15 @@ import android.widget.TextView;
 
 import com.example.haohoang.microsofttest.R;
 import com.example.haohoang.microsofttest.sutudentdata.Student;
+import com.example.haohoang.microsofttest.utils.Util;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.haohoang.microsofttest.R.id.imageView;
 
 /**
  * Created by tranh on 3/6/2017.
@@ -36,6 +42,7 @@ public class StudentListHolder extends RecyclerView.ViewHolder {
 
     public void bind(Student student) {
         DownloadImageTask downloadImageTask = new DownloadImageTask(ivStudent);
+        downloadImageTask.execute(student.getUrl());
         tvIdStudent.setText(student.getIdStudent());
         tvNameStudent.setText(student.getName());
     }
